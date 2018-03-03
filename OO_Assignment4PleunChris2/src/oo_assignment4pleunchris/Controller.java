@@ -2,8 +2,8 @@ package oo_assignment4pleunchris;
 
 /**
  * Connects game logic and view.
- *
- * @author Pleun
+ * @author Pleun Scholten s4822250
+ * @author Christian Lammers s4578236
  */
 public class Controller {
 
@@ -24,23 +24,25 @@ public class Controller {
      */
     public void run() {
         user.println(board);
-        //System.out.println(this.toString());
         boolean finished = false;
         //The cross player can always start, independent of whether that is the human or computer player.
         Player currentPlayer = getPlayerFromTeam(Field.CROSS);
         while (!finished) {
             System.out.println(currentPlayer);
-            Move move = null;
+            Move move;
+            
             //For human move, display promt.
-            if (currentPlayer instanceof HumanPlayer) {
+            if (currentPlayer instanceof HumanPlayer)
                 user.println("Please input in format 'row col' to play your move there.");
-                move = currentPlayer.play(board);
-            }
+            move = currentPlayer.play(board);
+            
             //Get move from the player.
             while (!board.legalMove(move)) {
-                user.println("Not a legal move.");
+                if (currentPlayer instanceof HumanPlayer)
+                    user.println("Not a legal move.");
                 move = currentPlayer.play(board);
             }
+            
             //Do the move and show.
             board.setState(move);
             user.println(board);
@@ -51,7 +53,7 @@ public class Controller {
                 user.println(String.format("Congratulations %s for winning the game!", currentPlayer));
                 finished = true;
             }
-            //Check draw. Also check for empty otherwise a full board with a winner would also be considered a draw.
+            //Check draw. 
             if (!board.hasEmpty()) {
                 user.println("It's a draw!");
                 finished = true;

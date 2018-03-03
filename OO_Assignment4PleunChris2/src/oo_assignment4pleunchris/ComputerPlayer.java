@@ -37,22 +37,10 @@ public class ComputerPlayer implements Player {
             return validMove;
 
         //If all else fails
-        //int randX = ThreadLocalRandom.current().nextInt(0, Board.DIM);
-        //int randY = ThreadLocalRandom.current().nextInt(0, Board.DIM);
-        //return new Move(1, 1, team);//new Move(randX, randY, team);
+        int randX = ThreadLocalRandom.current().nextInt(0, Board.DIM);
+        int randY = ThreadLocalRandom.current().nextInt(0, Board.DIM);
+        validMove = new Move(randX, randY, team);
 
-        /*
-        Sorta fake pseudocode:
-        ----------------------------------------------
-        Board copy = board.deepCopyBoard();
-        for int i : DIM:
-            for int j : DIM:
-                if(copy.isWinningState(new Move(i,j,team))
-                    return new Move(i,j,team)
-        for int i : DIM:
-                for int j : DIM:
-                    if(copy.isWinningState(new Move(i,j,team.other()))
-                        return new Move(i,j,team)        */
         return validMove;
     }
 

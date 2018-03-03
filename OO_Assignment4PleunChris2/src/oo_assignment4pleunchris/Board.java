@@ -2,7 +2,6 @@ package oo_assignment4pleunchris;
 
 /**
  * Board of the tic tac toe game.
- *
  * @author Pleun Scholten s4822250
  * @author Christian Lammers s4578236
  */
@@ -10,6 +9,7 @@ public class Board {
 
     public final static int DIM = 3;
     private Field[][] board;
+    private Move lastMove;
 
     /**
      * Constructor function for the board.
@@ -17,11 +17,9 @@ public class Board {
     public Board() {
         board = new Field[DIM][DIM];
         //Initialize board as empty.
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
+        for (int i = 0; i < board.length; i++)
+            for (int j = 0; j < board[i].length; j++)
                 board[i][j] = Field.EMPTY;
-            }
-        }
     }
 
     /**
@@ -32,11 +30,9 @@ public class Board {
     public Board(Field[][] field) {
         board = new Field[DIM][DIM];
         //Initialize board as empty.
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
+        for (int i = 0; i < board.length; i++)
+            for (int j = 0; j < board[i].length; j++)
                 board[i][j] = field[i][j];
-            }
-        }
     }
 
     /**
@@ -63,6 +59,7 @@ public class Board {
      * @param move
      */
     public void setState(Move move) {
+        lastMove = move;
         board[move.getCoords()[0]][move.getCoords()[1]] = move.getState();
     }
 
@@ -71,16 +68,13 @@ public class Board {
      */
     public Board deepCopyBoard() {
         Field[][] field = new Field[board.length][board[0].length];
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
+        for (int i = 0; i < board.length; i++)
+            for (int j = 0; j < board.length; j++)
                 field[i][j] = board[i][j];
-            }
-        }
         return new Board(field);
     }
 
     /**
-     * @param move
      * @return whether the given move will result in a winning state.
      */
     public boolean isWinningState() {
@@ -88,30 +82,26 @@ public class Board {
         Algorithm based on https://stackoverflow.com/questions/1056316/algorithm-for-determining-tic-tac-toe-game-over
         Gotta give credit ;)
          */
-
-        return checkCols() || checkRows() || checkDiags();
+        return checkCols(lastMove) || checkRows(lastMove) || checkDiags(lastMove);
 
     }
-
-    /**
-     * Checks for winning condition in the column of the played move. Null move
+    
+        /**
+     * Checks for winning condition in the column of the last played move. Null move
      * caught in higher function.
      *
      * @param move
      * @return true if winning condition on columns.
      */
-    public boolean checkCols() {
+    private boolean checkCols(Move move) {
+        int x = move.getCoords()[0];
         for (int i = 0; i < DIM; i++) {
-            if (    board[DIM - DIM][i] != Field.EMPTY &&
-                    board[DIM - 1][i] != Field.EMPTY &&
-                    board[DIM - 2][i] != Field.EMPTY )
-                
-            if (board[DIM - DIM][i] == board[DIM - 2][i] && board[DIM - DIM][i] == board[DIM - 1][i]) {
+            if (board[x][i] != move.getState())
+                return false;
+            if (i == DIM - 1)
                 return true;
-            }
-
         }
-        return false;
+        return true;
     }
 
     /**
@@ -121,18 +111,15 @@ public class Board {
      * @param move
      * @return true if winning condition on row.
      */
-    public boolean checkRows() {
+    private boolean checkRows(Move move) {
+        int y = move.getCoords()[1];
         for (int i = 0; i < DIM; i++) {
-            if (    board[i][DIM - DIM] != Field.EMPTY &&
-                    board[i][DIM - 2] != Field.EMPTY &&
-                    board[i][DIM - 1] != Field.EMPTY )
-                
-            if (board[i][DIM - DIM] == board[i][DIM - 2] && board[i][DIM - DIM] == board[i][DIM -1]) {
+            if (board[i][y] != move.getState())
+                return false;
+            if (i == DIM - 1)
                 return true;
-            }
-
         }
-        return false;
+        return true;
     }
 
     /**
@@ -142,39 +129,28 @@ public class Board {
      * @param move
      * @return true if winning condition on diagonal.
      */
-    public boolean checkDiags() {
-        
-        if (    board[DIM - DIM][DIM - DIM] != Field.EMPTY &&
-                    board[DIM-2][DIM - 2] != Field.EMPTY &&
-                    board[DIM-1][DIM - 1] != Field.EMPTY )
-        
-        if (board[DIM - DIM][DIM - DIM] == board[DIM - 2][DIM - 2] && board[DIM - DIM][DIM - DIM] == board[DIM - 1][DIM - 1]) {
-            return true;
+    private boolean checkDiags(Move move) {
+        int x = move.getCoords()[0];
+        int y = move.getCoords()[1];
+        if (x != y)
+            return false;
+        for (int i = 0; i < DIM; i++) {
+            if (board[i][i] != move.getState())
+                return false;
+            if (i == DIM - 1)
+                return true;
         }
-        
-        
-        if (    board[DIM - DIM][DIM - 1] != Field.EMPTY &&
-                    board[DIM-2][DIM - 2] != Field.EMPTY &&
-                    board[DIM-1][DIM - DIM] != Field.EMPTY )
-            
-        if (board[DIM - DIM][DIM - 1] == board[DIM - 2][DIM - 2] && board[DIM - 1][DIM - DIM] == board[DIM - 2][DIM - 2]) {
-            return true;
-        }
-        return false;
-
+        return true;
     }
-
+    
     /**
      * @return true if there is an empty state in the board.
      */
     public boolean hasEmpty() {
-        for (Field[] states : board) {
-            for (Field state : states) {
-                if (state == Field.EMPTY) {
+        for (Field[] states : board)
+            for (Field state : states)
+                if (state == Field.EMPTY)
                     return true;
-                }
-            }
-        }
         return false;
     }
 

@@ -1,8 +1,9 @@
 package oo_assignment4pleunchris;
 
 /**
- *
- * @author Pleun
+ * Human player class
+ * @author Pleun Scholten s4822250
+ * @author Christian Lammers s4578236
  */
 public class HumanPlayer implements Player {
 

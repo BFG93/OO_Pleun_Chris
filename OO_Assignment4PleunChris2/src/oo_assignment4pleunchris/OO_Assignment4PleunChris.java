@@ -22,18 +22,8 @@ public class OO_Assignment4PleunChris {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        Controller controller = new Controller();
-//        controller.run();
+        Controller controller = new Controller();
+        controller.run();
 
-        
-        ComputerPlayer cp = new ComputerPlayer(Field.CIRCLE,"Permus");
-        Board b = new Board();
-        b.setState(new Move(0, 0, Field.CROSS));
-        b.setState(new Move(1, 1, Field.CROSS));
-        b.setState(new Move(2,2, Field.CIRCLE));
-        System.out.println(b);
-        System.out.println(cp.play(b));
-       
-        //System.out.printf("%s, %b",b,b.isWinningState(new Move(2,2,Field.CROSS)));
     }
 }

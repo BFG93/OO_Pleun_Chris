@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 /**
  * A console class meant to deal with I/O using a Scanner.
- *
  * @author Pleun Scholten s4822250
+ * @author Christian Lammers s4578236
  */
 public class View {
 

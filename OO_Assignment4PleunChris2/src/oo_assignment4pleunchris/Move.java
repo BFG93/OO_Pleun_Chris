@@ -2,7 +2,8 @@ package oo_assignment4pleunchris;
 
 /**
  * A move is a move on the board, at position x,y with Field state.
- * @author Pleun
+ * @author Pleun Scholten s4822250
+ * @author Christian Lammers s4578236
  */
 public class Move {
     private int x;

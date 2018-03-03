@@ -3,7 +3,8 @@ package oo_assignment4pleunchris;
 /**
  * Enumeration type for the tic-tac-toe game.
  * Allows states to be EMPTY, CROSS or CIRCLE. 
- * @author Pleun Scolten s4822250
+ * @author Pleun Scholten s4822250
+ * @author Christian Lammers s4578236
  */
 public enum Field {
     EMPTY, CROSS, CIRCLE;
