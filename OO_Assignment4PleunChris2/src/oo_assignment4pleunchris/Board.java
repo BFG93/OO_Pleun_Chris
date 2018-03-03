@@ -17,23 +17,28 @@ public class Board {
     public Board() {
         board = new Field[DIM][DIM];
         //Initialize board as empty.
-        for (int i = 0; i < board.length; i++)
-            for (int j = 0; j < board[i].length; j++)
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
                 board[i][j] = Field.EMPTY;
+            }
+        }
     }
-    
+
     /**
      * Constructor function for the board with a given 2D Field array.
+     *
      * @param field
      */
     public Board(Field[][] field) {
         board = new Field[DIM][DIM];
         //Initialize board as empty.
-        for (int i = 0; i < board.length; i++)
-            for (int j = 0; j < board[i].length; j++)
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
                 board[i][j] = field[i][j];
+            }
+        }
     }
-    
+
     /**
      * @param x
      * @param y
@@ -42,17 +47,18 @@ public class Board {
     public Field getState(int x, int y) {
         return board[x][y];
     }
-    
+
     /**
      * @param move
-     * @return true if the move is not a null move, is in bounds and whether the move will be to an empty field.
+     * @return true if the move is not a null move, is in bounds and whether the
+     * move will be to an empty field.
      */
     public boolean legalMove(Move move) {
         return move != null && move.getCoords()[0] >= 0 && move.getCoords()[0] < DIM && move.getCoords()[1] >= 0 && move.getCoords()[1] < DIM && board[move.getCoords()[0]][move.getCoords()[1]] == Field.EMPTY;
     }
 
     /**
-     * Sets the state of the board at x,y of move. 
+     * Sets the state of the board at x,y of move.
      *
      * @param move
      */
@@ -65,9 +71,11 @@ public class Board {
      */
     public Board deepCopyBoard() {
         Field[][] field = new Field[board.length][board[0].length];
-        for (int i = 0; i < board.length; i++) 
-            for (int j = 0; j < board.length; j++)
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
                 field[i][j] = board[i][j];
+            }
+        }
         return new Board(field);
     }
 
@@ -75,15 +83,14 @@ public class Board {
      * @param move
      * @return whether the given move will result in a winning state.
      */
-    public boolean isWinningState(Move move) {
+    public boolean isWinningState() {
         /*
         Algorithm based on https://stackoverflow.com/questions/1056316/algorithm-for-determining-tic-tac-toe-game-over
         Gotta give credit ;)
          */
-        if (move == null)
-            return false;
-        else
-            return checkCols(move) || checkRows(move) || checkDiags(move);
+
+        return checkCols() || checkRows() || checkDiags();
+
     }
 
     /**
@@ -93,15 +100,18 @@ public class Board {
      * @param move
      * @return true if winning condition on columns.
      */
-    private boolean checkCols(Move move) {
-        int x = move.getCoords()[0];
+    public boolean checkCols() {
         for (int i = 0; i < DIM; i++) {
-            if (board[x][i] != move.getState())
-                return false;
-            if (i == DIM - 1)
+            if (    board[DIM - DIM][i] != Field.EMPTY &&
+                    board[DIM - 1][i] != Field.EMPTY &&
+                    board[DIM - 2][i] != Field.EMPTY )
+                
+            if (board[DIM - DIM][i] == board[DIM - 2][i] && board[DIM - DIM][i] == board[DIM - 1][i]) {
                 return true;
+            }
+
         }
-        return true;
+        return false;
     }
 
     /**
@@ -111,15 +121,18 @@ public class Board {
      * @param move
      * @return true if winning condition on row.
      */
-    private boolean checkRows(Move move) {
-        int y = move.getCoords()[1];
+    public boolean checkRows() {
         for (int i = 0; i < DIM; i++) {
-            if (board[i][y] != move.getState())
-                return false;
-            if (i == DIM - 1)
+            if (    board[i][DIM - DIM] != Field.EMPTY &&
+                    board[i][DIM - 2] != Field.EMPTY &&
+                    board[i][DIM - 1] != Field.EMPTY )
+                
+            if (board[i][DIM - DIM] == board[i][DIM - 2] && board[i][DIM - DIM] == board[i][DIM -1]) {
                 return true;
+            }
+
         }
-        return true;
+        return false;
     }
 
     /**
@@ -129,28 +142,39 @@ public class Board {
      * @param move
      * @return true if winning condition on diagonal.
      */
-    private boolean checkDiags(Move move) {
-        int x = move.getCoords()[0];
-        int y = move.getCoords()[1];
-        if (x != y)
-            return false;
-        for (int i = 0; i < DIM; i++) {
-            if (board[i][i] != move.getState())
-                return false;
-            if (i == DIM - 1)
-                return true;
+    public boolean checkDiags() {
+        
+        if (    board[DIM - DIM][DIM - DIM] != Field.EMPTY &&
+                    board[DIM-2][DIM - 2] != Field.EMPTY &&
+                    board[DIM-1][DIM - 1] != Field.EMPTY )
+        
+        if (board[DIM - DIM][DIM - DIM] == board[DIM - 2][DIM - 2] && board[DIM - DIM][DIM - DIM] == board[DIM - 1][DIM - 1]) {
+            return true;
         }
-        return true;
+        
+        
+        if (    board[DIM - DIM][DIM - 1] != Field.EMPTY &&
+                    board[DIM-2][DIM - 2] != Field.EMPTY &&
+                    board[DIM-1][DIM - DIM] != Field.EMPTY )
+            
+        if (board[DIM - DIM][DIM - 1] == board[DIM - 2][DIM - 2] && board[DIM - 1][DIM - DIM] == board[DIM - 2][DIM - 2]) {
+            return true;
+        }
+        return false;
+
     }
 
     /**
      * @return true if there is an empty state in the board.
      */
     public boolean hasEmpty() {
-        for (Field[] states : board)
-            for (Field state : states)
-                if (state == Field.EMPTY)
+        for (Field[] states : board) {
+            for (Field state : states) {
+                if (state == Field.EMPTY) {
                     return true;
+                }
+            }
+        }
         return false;
     }
 

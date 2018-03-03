@@ -47,7 +47,7 @@ public class Controller {
 
             /* End conditions */
             //Check winner.
-            if (board.isWinningState(move)) {
+            if (board.isWinningState()) {
                 user.println(String.format("Congratulations %s for winning the game!", currentPlayer));
                 finished = true;
             }

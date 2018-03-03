@@ -25,13 +25,15 @@ public class OO_Assignment4PleunChris {
 //        Controller controller = new Controller();
 //        controller.run();
 
-        /*
-        Check for the isWinning function, it doesn't work.
-        */
-
+        
+        ComputerPlayer cp = new ComputerPlayer(Field.CIRCLE,"Permus");
         Board b = new Board();
-        b.setState(new Move(0,0,Field.CROSS));
-        b.setState(new Move(1,1,Field.CROSS));
-        System.out.printf("%s, %b",b,b.isWinningState(new Move(2,2,Field.CROSS)));
+        b.setState(new Move(0, 0, Field.CROSS));
+        b.setState(new Move(1, 1, Field.CROSS));
+        b.setState(new Move(2,2, Field.CIRCLE));
+        System.out.println(b);
+        System.out.println(cp.play(b));
+       
+        //System.out.printf("%s, %b",b,b.isWinningState(new Move(2,2,Field.CROSS)));
     }
 }
