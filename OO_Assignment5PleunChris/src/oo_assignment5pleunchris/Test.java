@@ -18,22 +18,24 @@ public class Test {
 
     public void run() {
 
-        map.put("x", 2.3);
+        map.put("x", 7.0);
         map.put("pi", 3.141593);
 
-        //Test 1: x+(-1 + (1 * 2))  --  Shows 1*x
+        //Test 1: x + -1 + 1 * 2 --  Shows 1*x and the basics
         BaseExpr ex1 = add(v("x"), add(neg(c(1)), mul(c(1),c(2))));
         test(ex1);
 
-        //Test 2: (0+((x*-0)+x))  --  Shows 0+y, x+0, x*0 and -0
-        BaseExpr ex2 = add(c(0), add(mul(v("x"), neg(c(0))), v("x")));
+        //Test 2: 0+(x*-0+x)  --  Shows 0+y, x+0, x*0 and -0
+        BaseExpr ex2 = add(c(0), add(mul(v("x"), neg(c(0))), v("pi")));
         test(ex2);
 
         //Test 3: ((2 + -2)*5) + x  --  Shows bottom up with the example from the slides.
         BaseExpr ex3 = add(mul(add(c(2), c(-2)), c(5)), v("x"));
         test(ex3);
         
-        //Test 
+        //Test 4: -(4+6)*3*x  --  Shows that it doesn't know associativity. 
+        BaseExpr ex4 = mul(neg(add(c(4),c(6))), mul(c(3),v("x")));
+        test(ex4);
     }
 
     /**

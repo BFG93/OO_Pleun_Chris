@@ -35,10 +35,10 @@ public class Multiply extends TwoArgExpr {
             return new Constant(0);
         //Mul(1,y) -> y
         else if (arg1 instanceof Constant && arg1.eval(null)==1)
-            return arg2.partialEval();
+            return arg2;
         //Mul(x,1) -> x
         else if(arg2 instanceof Constant && arg2.eval(null)==1)
-            return arg1.partialEval();
+            return arg1;
         else 
             return this;
     }
