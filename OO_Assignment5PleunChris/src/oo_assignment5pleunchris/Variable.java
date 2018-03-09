@@ -1,6 +1,6 @@
 package oo_assignment5pleunchris;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -19,7 +19,7 @@ public class Variable extends NoArgExpr{
     }
     
     @Override
-    public double eval(HashMap<String, Double> dictionary) {
+    public double eval(Map<String, Double> dictionary) {
         return dictionary.get(name);
     }
     

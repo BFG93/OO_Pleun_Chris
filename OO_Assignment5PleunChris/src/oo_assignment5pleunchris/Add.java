@@ -1,6 +1,6 @@
 package oo_assignment5pleunchris;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -18,7 +18,7 @@ public class Add extends TwoArgExpr{
     }
 
     @Override
-    protected double eval(HashMap<String, Double> map) {
+    protected double eval(Map<String, Double> map) {
         return arg1.eval(map) + arg2.eval(map);
     }
 
@@ -27,8 +27,18 @@ public class Add extends TwoArgExpr{
      */
     @Override
     protected BaseExpr partialEval() {
-        if(arg1 instanceof Constant && arg2 instanceof Constant)
+        arg1 = arg1.partialEval();
+        arg2 = arg2.partialEval();
+        
+        //Add(n,m) -> n+m
+        if(arg1 instanceof Constant & arg2 instanceof Constant)
             return new Constant(arg1.eval(null)+arg2.eval(null));
+        //Add(x,0) -> x
+        if(arg2 instanceof Constant && arg2.eval(null)==0)
+            return arg1;
+        //Add(0,y) -> y
+        if(arg1 instanceof Constant && arg1.eval(null)==0)
+            return arg2;
         else
             return this;
     }

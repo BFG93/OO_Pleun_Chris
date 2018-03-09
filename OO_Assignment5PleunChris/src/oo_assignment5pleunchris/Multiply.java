@@ -1,6 +1,6 @@
 package oo_assignment5pleunchris;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -14,18 +14,31 @@ public class Multiply extends TwoArgExpr {
 
     @Override
     public String toString() {
-        return String.format("(*s * %s)", arg1, arg2);
+        return String.format("(%s * %s)", arg1, arg2);
     }
 
     @Override
-    protected double eval(HashMap<String, Double> map) {
+    protected double eval(Map<String, Double> map) {
         return arg1.eval(map) * arg2.eval(map);
     }
 
     @Override
     protected BaseExpr partialEval() {
-        if (arg1 instanceof Constant && arg2 instanceof Constant)
+        arg1 = arg1.partialEval();
+        arg2 = arg2.partialEval();
+        
+        //Mul(n,m) -> n*m
+        if (arg1 instanceof Constant & arg2 instanceof Constant)
             return new Constant(arg1.eval(null) * arg2.eval(null));
+        //Mul(x,0) -> 0 & Mul(0,y) -> 0
+        else if (arg1 instanceof Constant && arg1.eval(null)==0 || arg2 instanceof Constant && arg2.eval(null)==0) 
+            return new Constant(0);
+        //Mul(1,y) -> y
+        else if (arg1 instanceof Constant && arg1.eval(null)==1)
+            return arg2.partialEval();
+        //Mul(x,1) -> x
+        else if(arg2 instanceof Constant && arg2.eval(null)==1)
+            return arg1.partialEval();
         else 
             return this;
     }

@@ -1,6 +1,6 @@
 package oo_assignment5pleunchris;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -22,7 +22,7 @@ public class Negate extends OneArgExpr {
      * @return -argument.
      */
     @Override
-    protected double eval(HashMap<String, Double> map) {
+    protected double eval(Map<String, Double> map) {
         return -arg.eval(map);
     }
 
@@ -31,9 +31,11 @@ public class Negate extends OneArgExpr {
      */
     @Override
     protected BaseExpr partialEval() {
+        arg = arg.partialEval();
+        //Neg(n) -> -n
         if (arg instanceof Constant)
-            return new Constant(-arg.eval(null)); //Give null as map because it's not needed.
+            return new Constant(-arg.eval(null));
         else
-            return new Negate(arg.partialEval());
+            return this;
     }
 }

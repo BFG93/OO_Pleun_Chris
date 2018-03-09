@@ -1,6 +1,6 @@
 package oo_assignment5pleunchris;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -19,7 +19,7 @@ public class Constant extends NoArgExpr {
     }
 
     @Override
-    public double eval(HashMap<String, Double> env) {
+    public double eval(Map<String, Double> env) {
         return val;
     }
 
