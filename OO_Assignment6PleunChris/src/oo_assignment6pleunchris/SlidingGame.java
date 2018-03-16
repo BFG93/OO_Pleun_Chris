@@ -102,8 +102,6 @@ public class SlidingGame implements Configuration {
     @Override
     public boolean isSolution() {
         SlidingGame winner = new SlidingGame(boardSolution);
-        System.out.println(winner);
-        System.out.println(this);
         return winner.equals(this);
     }
 
@@ -114,7 +112,6 @@ public class SlidingGame implements Configuration {
         for (Direction dir : Direction.values()) {
             int newX = holeX + dir.GetDX();
             int newY = holeY + dir.GetDY();
-//            System.out.printf("holeX: %d, holeY: %d, newX: %d, newY: %d, dx: %d, dy: %d\n\n", holeX, holeY, newX, newY, dir.GetDX(), dir.GetDY());
             //Check if legal position on the board
             if (newX >= 0 && newX < N && newY >= 0 && newY < N) {
                 //Copy board
@@ -125,8 +122,6 @@ public class SlidingGame implements Configuration {
                 newBoard[holeX][holeY] = temp; //<-----
                 //Make new configuration and set the parent.
                 SlidingGame succ = new SlidingGame(newBoard);
-//                System.out.printf("Current Board: \n%sTemp: %d\nnewX: %d, newY: %d\nholeX: %d, holeY: %d\nNew Board:\n%s\n", this, temp, newX, newY, holeX, holeY, succ);
-
                 succ.setParent(this);
                 successors.add(succ);
             }
@@ -163,7 +158,6 @@ public class SlidingGame implements Configuration {
         int[][] copy = new int[N][N];
         for (int i = 0; i < board.length; i++)
             copy[i] = Arrays.copyOf(board[i], N);
-        //System.out.println(Arrays.toString(copy)); //Remove later.
         return copy;
     }
 
