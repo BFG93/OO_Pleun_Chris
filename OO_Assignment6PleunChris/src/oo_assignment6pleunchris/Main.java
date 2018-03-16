@@ -12,7 +12,7 @@ import java.util.Collection;
 public class Main
 {
     public static void main(String[] args) {
-        int [] game = {1,2,3, 4,5,6, 7,9,8};
+        int [] game = {3,8,5, 2,9,7, 4,1,6};
 
         SlidingGame s = new SlidingGame (game);
 //        System.out.printf("Parent: \n%s\n",s);

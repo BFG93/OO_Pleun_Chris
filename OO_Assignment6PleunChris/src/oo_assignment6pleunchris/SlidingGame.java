@@ -51,10 +51,17 @@ public class SlidingGame implements Configuration {
         board = new int[N][N];
 
         for (int i = 0; i < state.length; i++)
-            System.arraycopy(state[i], 0, board[i], 0, state[i].length);
+            for (int j = 0; j < state.length; j++) {
+                board[i][j] = state[i][j];
+                if (state[i][j] == HOLE) {
+                    holeX = i;
+                    holeY = j;
+                }
+
+            }
         setSolution();
     }
-    
+
     /**
      * Creates the solution of the board.
      */
@@ -90,7 +97,8 @@ public class SlidingGame implements Configuration {
 
     @Override
     public boolean equals(Object o) {
-        if (o.getClass().equals(this.getClass())) {
+        //Improve the speed by checking the hashCode first.
+        if (o.getClass().equals(this.getClass()) && this.hashCode() == o.hashCode()) {
             for (int i = 0; i < board.length; i++)
                 if (!Arrays.equals(board[i], SlidingGame.class.cast(o).getBoard()[i]))
                     return false;
@@ -120,6 +128,7 @@ public class SlidingGame implements Configuration {
                 int temp = newBoard[newX][newY];
                 newBoard[newX][newY] = HOLE;
                 newBoard[holeX][holeY] = temp; //<-----
+                //System.out.printf("oldX: %d, oldY: %d, newX: %d, newY: %d,Temp:%d\n",holeX, holeY, newX, newY, temp);
                 //Make new configuration and set the parent.
                 SlidingGame succ = new SlidingGame(newBoard);
                 succ.setParent(this);
@@ -159,6 +168,15 @@ public class SlidingGame implements Configuration {
         for (int i = 0; i < board.length; i++)
             copy[i] = Arrays.copyOf(board[i], N);
         return copy;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        for (int x = N - 1; x >= 0; x--)
+            for (int y = N - 1; y >= 0; y--)
+                hash = 31 * hash + board[x][y];
+        return hash;
     }
 
 }
