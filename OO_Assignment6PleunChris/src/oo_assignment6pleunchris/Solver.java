@@ -16,8 +16,8 @@ public class Solver
     Queue<Configuration> toExamine;
 
     public Solver( Configuration g ) {
-        
-        throw new UnsupportedOperationException( "Solver: not supported yet." );
+        toExamine = new LinkedList<>();
+        toExamine.add(g);
     }
 
     /**
@@ -26,8 +26,10 @@ public class Solver
      * @return a string representation of the solution
      */
     public String solve() {
+        int counter = 0;
         while ( ! toExamine.isEmpty() ) {
             Configuration next = toExamine.remove();
+            System.out.printf("It: %d\n%s\n",counter,next);
             if ( next.isSolution() ) {
                 return "Success!";
             } else {
@@ -35,6 +37,7 @@ public class Solver
                     toExamine.add(succ);
                 }
             }
+            counter ++;
         }
         return "Failure!";
     }

@@ -21,8 +21,9 @@ public class SlidingGame implements Configuration {
      */
     private int[][] board;
     private int holeX, holeY;
-    private SlidingGame parent;
-    
+    private Configuration parent;
+    private int[][] boardSolution;
+
     /**
      * A constructor that initializes the board with the specified array
      *
@@ -31,7 +32,7 @@ public class SlidingGame implements Configuration {
      */
     public SlidingGame(int[] start) {
         board = new int[N][N];
-        
+
         assert start.length == N * N : "Length of specified board incorrect";
 
         for (int p = 0; p < start.length; p++) {
@@ -41,8 +42,30 @@ public class SlidingGame implements Configuration {
                 holeY = p / N;
             }
         }
-        
+
         parent = null;
+        setSolution();
+    }
+
+    public SlidingGame(int[][] state) {
+        board = new int[N][N];
+
+        for (int i = 0; i < state.length; i++)
+            System.arraycopy(state[i], 0, board[i], 0, state[i].length);
+        setSolution();
+    }
+    
+    /**
+     * Creates the solution of the board.
+     */
+    public final void setSolution() {
+        boardSolution = new int[N][N];
+        int counter = 1;
+        for (int i = 0; i < board.length; i++)
+            for (int j = 0; j < board[i].length; j++) {
+                boardSolution[j][i] = counter;
+                counter++;
+            }
     }
 
     /**
@@ -57,6 +80,7 @@ public class SlidingGame implements Configuration {
         for (int row = 0; row < N; row++) {
             for (int col = 0; col < N; col++) {
                 int puzzel = board[col][row];
+                //buf.append(puzzel + " ");
                 buf.append(puzzel == HOLE ? "  " : puzzel + " ");
             }
             buf.append("\n");
@@ -70,36 +94,44 @@ public class SlidingGame implements Configuration {
             for (int i = 0; i < board.length; i++)
                 if (!Arrays.equals(board[i], SlidingGame.class.cast(o).getBoard()[i]))
                     return false;
-        return true;    
-
+            return true;
         }
         return false;
     }
 
     @Override
     public boolean isSolution() {
-        for (int i = 0; i < board.length; i++) {
-            //Check if the hole is in the corect place.
-            if(holeX != N-1 || holeX != N-1) 
-                return false;
-            //For not the first row, check if the first el of this row is 1 more than the last el of the previous row.
-            if(i != 0 && board[i][0] != board[i-1][N]-1) 
-                    return false;
-            //Check if every element is one more than the previous. < length-1 for IndexOutOfBounds
-            for (int j = 0; j < board[i].length-1; j++) 
-                if (board[i][j+1] != board[i][j]-1)
-                    return false;
-        }
-        return true;
+        SlidingGame winner = new SlidingGame(boardSolution);
+        System.out.println(winner);
+        System.out.println(this);
+        return winner.equals(this);
     }
 
     @Override
     public Collection<Configuration> successors() {
         ArrayList<Configuration> successors = new ArrayList<>();
-        for(Direction dir : Direction.values()) {
-            
+        //Loop over all directions
+        for (Direction dir : Direction.values()) {
+            int newX = holeX + dir.GetDX();
+            int newY = holeY + dir.GetDY();
+//            System.out.printf("holeX: %d, holeY: %d, newX: %d, newY: %d, dx: %d, dy: %d\n\n", holeX, holeY, newX, newY, dir.GetDX(), dir.GetDY());
+            //Check if legal position on the board
+            if (newX >= 0 && newX < N && newY >= 0 && newY < N) {
+                //Copy board
+                int[][] newBoard = getDeepBoardCopy();
+                //Switch the hole and tile at the new hole's position.
+                int temp = newBoard[newX][newY];
+                newBoard[newX][newY] = HOLE;
+                newBoard[holeX][holeY] = temp; //<-----
+                //Make new configuration and set the parent.
+                SlidingGame succ = new SlidingGame(newBoard);
+//                System.out.printf("Current Board: \n%sTemp: %d\nnewX: %d, newY: %d\nholeX: %d, holeY: %d\nNew Board:\n%s\n", this, temp, newX, newY, holeX, holeY, succ);
+
+                succ.setParent(this);
+                successors.add(succ);
+            }
         }
-        throw new UnsupportedOperationException("successors : not supported yet.");
+        return successors;
     }
 
     @Override
@@ -109,10 +141,30 @@ public class SlidingGame implements Configuration {
 
     @Override
     public Configuration parent() {
-        throw new UnsupportedOperationException("parent: Not supported yet.");
+        return parent;
     }
 
     public int[][] getBoard() {
         return board;
     }
+
+    public void setParent(Configuration parent) {
+        this.parent = parent;
+    }
+
+    public int[][] getSolution() {
+        return boardSolution;
+    }
+
+    /**
+     * @return a deep copy of the board.
+     */
+    public int[][] getDeepBoardCopy() {
+        int[][] copy = new int[N][N];
+        for (int i = 0; i < board.length; i++)
+            copy[i] = Arrays.copyOf(board[i], N);
+        //System.out.println(Arrays.toString(copy)); //Remove later.
+        return copy;
+    }
+
 }
