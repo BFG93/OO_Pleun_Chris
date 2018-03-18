@@ -13,20 +13,19 @@ import java.util.*;
 public class Solver {
     // A queue for maintaining graphs that are not visited yet.
 
-    Queue<Configuration> toExamine;
-    HashSet<Configuration> observed;
+    private Queue<Configuration> toExamine;
+    private HashSet<Configuration> observed;
 
     public Solver(Configuration g) {
-        toExamine = new LinkedList<>();
+        toExamine = new PriorityQueue<>();
         toExamine.add(g);
-        
+
         observed = new HashSet<>();
     }
 
     /**
-     * A skeleton implementation of the solver
-     *
-     * @return a string representation of the solution
+     * Solves the configuration and prints the solution.
+     * @return the path.
      */
     public String solve() {
         int counter = 0;
@@ -34,17 +33,28 @@ public class Solver {
             Configuration next = toExamine.remove();
             //System.out.printf("It: %d\nNext:\n%sParent:\n%s\n",counter,next, next.parent());
             //If the next state is not yet been evaluated.
-            if (!observed.contains(next)) {
-                observed.add(next);
-                if (next.isSolution())
-                    return "Success!";
-                else
-                    for (Configuration succ : next.successors())
+            if (next.isSolution()) {
+                return "Success!\n"+getPath(next.pathFromRoot());
+            } else
+                for (Configuration succ : next.successors())
+                    if (observed.add(succ)) //Returns true if next is not in observed
                         toExamine.add(succ);
-                counter++;
-            }
+            counter++;
         }
         return "Failure!";
     }
 
+    /**
+     * Prints the solution with a clean layout.
+     *
+     * @param pathFromRoot
+     * @return the path formatted properly
+     */
+    private String getPath(List<Configuration> pathFromRoot) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < pathFromRoot.size(); i++) {
+            sb.append(String.format("%s\n", pathFromRoot.get(i)));
+        }
+        return sb.toString();
+    }
 }

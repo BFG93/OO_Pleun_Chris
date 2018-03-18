@@ -42,14 +42,17 @@ public class SlidingGame implements Configuration {
                 holeY = p / N;
             }
         }
-
         parent = null;
         setSolution();
     }
 
+    /**
+     * A constructor that initializes the board with the specified array
+     *
+     * @param state: a two dimensional array containing the initial board.
+     */
     public SlidingGame(int[][] state) {
         board = new int[N][N];
-
         for (int i = 0; i < state.length; i++)
             for (int j = 0; j < state.length; j++) {
                 board[i][j] = state[i][j];
@@ -63,14 +66,14 @@ public class SlidingGame implements Configuration {
     }
 
     /**
-     * Creates the solution of the board.
+     * Creates the solution of the board. 
      */
     public final void setSolution() {
         boardSolution = new int[N][N];
         int counter = 1;
-        for (int i = 0; i < board.length; i++)
-            for (int j = 0; j < board[i].length; j++) {
-                boardSolution[j][i] = counter;
+        for (int row = 0; row < N; row++) 
+            for (int col = 0; col < N; col++) {
+                boardSolution[col][row] = counter;
                 counter++;
             }
     }
@@ -86,9 +89,8 @@ public class SlidingGame implements Configuration {
         StringBuilder buf = new StringBuilder();
         for (int row = 0; row < N; row++) {
             for (int col = 0; col < N; col++) {
-                int puzzel = board[col][row];
-                //buf.append(puzzel + " ");
-                buf.append(puzzel == HOLE ? "  " : puzzel + " ");
+                int puzzle = board[col][row];
+                buf.append(puzzle == HOLE ? "  " : puzzle + " ");
             }
             buf.append("\n");
         }
@@ -100,8 +102,9 @@ public class SlidingGame implements Configuration {
         //Improve the speed by checking the hashCode first.
         if (o.getClass().equals(this.getClass()) && this.hashCode() == o.hashCode()) {
             for (int i = 0; i < board.length; i++)
-                if (!Arrays.equals(board[i], SlidingGame.class.cast(o).getBoard()[i]))
-                    return false;
+                for (int j = 0; j < board[i].length; j++)
+                    if (board[i][j] != SlidingGame.class.cast(o).getBoard()[i][j])
+                        return false;
             return true;
         }
         return false;
@@ -110,7 +113,7 @@ public class SlidingGame implements Configuration {
     @Override
     public boolean isSolution() {
         SlidingGame winner = new SlidingGame(boardSolution);
-        return winner.equals(this);
+        return this.equals(winner);
     }
 
     @Override
@@ -128,7 +131,6 @@ public class SlidingGame implements Configuration {
                 int temp = newBoard[newX][newY];
                 newBoard[newX][newY] = HOLE;
                 newBoard[holeX][holeY] = temp; //<-----
-                //System.out.printf("oldX: %d, oldY: %d, newX: %d, newY: %d,Temp:%d\n",holeX, holeY, newX, newY, temp);
                 //Make new configuration and set the parent.
                 SlidingGame succ = new SlidingGame(newBoard);
                 succ.setParent(this);
@@ -140,7 +142,19 @@ public class SlidingGame implements Configuration {
 
     @Override
     public int compareTo(Configuration g) {
-        throw new UnsupportedOperationException("compareTo : not supported yet.");
+        return this.getManhattanDist() - g.getManhattanDist();
+    }
+
+    @Override
+    public int getManhattanDist() {
+        int manhattanSum = 0;
+        for (int row = 0; row < board.length; row++)
+            for (int col = 0; col < board[row].length; col++) {
+                int x = (board[col][row] - 1) % N;
+                int y = (board[col][row] - 1) / N;
+                manhattanSum += Math.abs(row-y) + Math.abs(col-x);
+            }
+        return manhattanSum;
     }
 
     @Override
@@ -154,10 +168,6 @@ public class SlidingGame implements Configuration {
 
     public void setParent(Configuration parent) {
         this.parent = parent;
-    }
-
-    public int[][] getSolution() {
-        return boardSolution;
     }
 
     /**

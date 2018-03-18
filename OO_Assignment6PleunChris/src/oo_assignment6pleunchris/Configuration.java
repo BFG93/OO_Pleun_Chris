@@ -8,11 +8,12 @@ package oo_assignment6pleunchris;
  * @date 25-02-2017
  */
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public interface Configuration extends Comparable<Configuration> {
-   /**
+public interface Configuration extends Comparable<Configuration> {  
+    /**
      * To obtain the parent of the current configuration, i.e.
      * the configuration which had this as one of its successors
      *
@@ -35,11 +36,21 @@ public interface Configuration extends Comparable<Configuration> {
     public abstract boolean isSolution();
         
     /**
+     * @return the Manhattan distance of the current configuration.
+     */
+    public abstract int getManhattanDist();
+
+    
+    /**
      * To build a path from the root configuration to the current one.
      *
      * @return a list of successive configurations from the root to 'this'
      */
     public default List<Configuration> pathFromRoot(){
-        throw new UnsupportedOperationException( "pathFromRoot: not supported yet." );
+        ArrayList<Configuration> path = new ArrayList<>();
+        if(this.parent() != null)
+            path.addAll(parent().pathFromRoot());
+        path.add(this);
+        return path;
     }
 }
