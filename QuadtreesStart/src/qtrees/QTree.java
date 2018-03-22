@@ -36,38 +36,4 @@ public class QTree {
         return null;
     }
 
-    public Boolean checkBlackLeaf(int x, int y, int width, Bitmap bitmap) {
-        for (int i = x; i < x + bitmap.getWidth(); i++) {
-            for (int j = y; j < j + bitmap.getHeight(); j++) {
-                if (bitmap.getBit(i, j)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-    
-    public Boolean checkWhiteLeaf(int x, int y, int width, Bitmap bitmap) {
-        for (int i = x; i < x + bitmap.getWidth(); i++) {
-            for (int j = y; j < j + bitmap.getHeight(); j++) {
-                if (!bitmap.getBit(i, j)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-    
-    public Boolean checkGreyNode(int x, int y, int width, Bitmap bitmap) {
-        Boolean grey= false;
-        for (int i = x; i < x + bitmap.getWidth(); i++) {
-            for (int j = y; j < j + bitmap.getHeight(); j++) {
-                if (bitmap.getBit(i, j) || bitmap.getBit(i,j)) {
-                    grey = true;
-                }
-            }
-        }
-        return grey;
-    }
-    
 }
