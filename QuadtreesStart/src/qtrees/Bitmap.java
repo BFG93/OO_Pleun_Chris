@@ -25,6 +25,7 @@ public class Bitmap {
      * Gets a bit at the specified position
      * @param x: x coordinate
      * @param y: y coordinate
+     * @return true if bit is white, false if bit is black.
      */
     public boolean getBit( int x, int y ) {
         return raster[x][y];
@@ -86,5 +87,19 @@ public class Bitmap {
         }
     }
     
+    /**
+     * @param x
+     * @param y
+     * @param width
+     * @return 0 if the quadrant is not uniform, else 1 for a uniform white quadrant and -1 for a uniform black quadrant.
+     */
+    public int checkQuadrant(int x, int y, int width) {
+        boolean color = raster[x][y]; //Initialize color as the first one in the quadrant.
+        for(int i = 0; i<width; i++)
+            for (int j = 0; j<width; j++) 
+                if(color != raster[x+i][y+j])
+                    return 0; //Grey node.
+        return color ? 1 : -1; //1 or -1 depending on the color of the quadrant.
+    }
 
 }

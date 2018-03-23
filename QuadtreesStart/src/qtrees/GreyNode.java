@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 /**
  *
  * @author Christian Lammers s4578236
- * @author Pleun Scholten s
+ * @author Pleun Scholten s4822250
  */
 public class GreyNode implements QTNode {
 
@@ -22,7 +22,7 @@ public class GreyNode implements QTNode {
     private char c;
 
     public GreyNode() {
-
+        children = new QTNode[4];
     }
 
     GreyNode(Reader input) throws IOException {
@@ -33,6 +33,10 @@ public class GreyNode implements QTNode {
 
         }
     }
+    
+    public void setChild(int index, QTNode node) {
+        children[index] = node;
+    }
 
     @Override
     public void fillBitmap(int x, int y, int width, Bitmap bitmap) {
@@ -40,8 +44,6 @@ public class GreyNode implements QTNode {
        children[1].fillBitmap(x+width/2, y, width/2, bitmap);
        children[2].fillBitmap(x+width/2, y+width/2, width/2, bitmap);
        children[3].fillBitmap(x, y+width/2, width/2, bitmap);
-       
-       
     }
 
     @Override

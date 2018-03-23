@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 /**
  *
  * @author Christian Lammers s4578236
- * @author Pleun Scholten s
+ * @author Pleun Scholten s4822250
  */
 
 public class WhiteLeaf implements QTNode {
