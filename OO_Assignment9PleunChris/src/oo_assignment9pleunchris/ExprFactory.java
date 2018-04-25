@@ -31,11 +31,11 @@ public class ExprFactory {
         return new AtomForm(str);
     }
     
-    public static ConstantForm T() {
+    public static ConstantForm True() {
         return ConstantForm.True;
     }
     
-    public static ConstantForm F() {
+    public static ConstantForm False() {
         return ConstantForm.False;
     }
 }

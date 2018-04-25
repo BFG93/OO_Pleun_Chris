@@ -11,20 +11,20 @@ package oo_assignment9pleunchris;
  */
 public enum  ConstantForm implements Form {
 
-    True("True"),
-    False("False");
+    True(true),
+    False(false);
     
-    private String name;
+    private boolean value;
     private final int precedence;
     
-    private ConstantForm(String string) {
-        this.name = string;
+    private ConstantForm(boolean string) {
+        this.value = string;
         this.precedence = 0;
     }
 
     @Override
     public String toString() {
-        return name;
+        return Boolean.toString(value);
     }
       
     @Override
@@ -35,6 +35,13 @@ public enum  ConstantForm implements Form {
     @Override
     public int getPrecedence() {
         return precedence;
+    }
+    
+    /**
+     * @return the value
+     */
+    public boolean getValue() {
+        return value;
     }
     
 }

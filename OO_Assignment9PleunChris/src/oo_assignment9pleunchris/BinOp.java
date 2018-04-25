@@ -5,15 +5,32 @@
  */
 package oo_assignment9pleunchris;
 
+import java.util.function.BinaryOperator;
+
 /**
  *
  * @author christianlammers
  */
-public enum BinOp {
+public enum BinOp implements BinaryOperator<Boolean>{
 
-    AndOp("/\\",1),
-    OrOp("\\/",2),
-    ImplyOp("->",3);
+    AndOp("/\\",1) {
+        @Override
+        public Boolean apply(Boolean a1, Boolean a2) {
+            return a1 && a2;
+        }
+    },
+    OrOp("\\/",2) {
+        @Override
+        public Boolean apply(Boolean a1, Boolean a2) {
+            return a1 || a2;
+        }
+    },
+    ImplyOp("->",3) {
+        @Override
+        public Boolean apply(Boolean a1, Boolean a2) {
+            return !a1 || a2;
+        }
+    };
     
     private String symbol;
     private final int precedence;
