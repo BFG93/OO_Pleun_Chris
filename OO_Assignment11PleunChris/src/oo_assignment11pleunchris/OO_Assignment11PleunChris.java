@@ -33,7 +33,8 @@ import javafx.util.Duration;
  */
 public class OO_Assignment11PleunChris extends Application {
 
-    private int time = 0;
+    private int time = -1;
+    private int maxTime = 0;
 
     @Override
     public void start(Stage stage) {
@@ -54,10 +55,20 @@ public class OO_Assignment11PleunChris extends Application {
         Timeline timeLine = new Timeline(new KeyFrame(
                 Duration.seconds(1), (ActionEvent t) -> {
             System.out.println(time);
-            time--;
+            if (time == -1)  
+                bar.setProgress(1);
+            else {
+                double value = (double) time / maxTime;
+                System.out.printf("T: %d, M: %d, R: %f\n", time, maxTime, value);
+                bar.setProgress(value);
+                time--;
+            }
         }));
         timeLine.setCycleCount(Timeline.INDEFINITE);
+        
 
+//        MyTimeLine timeLine = new MyTimeLine(bar);
+        
         grid.add(bar, 0, 0);
         grid.add(textField, 0, 1);
         grid.add(startBtn, 0, 2);
@@ -67,7 +78,9 @@ public class OO_Assignment11PleunChris extends Application {
         startBtn.setOnAction((ActionEvent event) -> {
             try {
                 time = Integer.parseInt(textField.getText());
+                maxTime = time;
                 timeLine.play();
+//                timeLine.run(time);
             } catch (IllegalArgumentException e) {
                 //Give error message
                 Alert alert = new Alert(AlertType.ERROR);
@@ -79,13 +92,17 @@ public class OO_Assignment11PleunChris extends Application {
             }
         });
         stopBtn.setOnAction((ActionEvent event) -> {
-            System.out.println("Stop");
+            timeLine.pause();
+//            timeLine.stop();
         });
         quitBtn.setOnAction((ActionEvent event) -> {
             stage.close();
         });
 
         Scene scene = new Scene(grid, 500, 500);
+        
+        
+        scene.setFill(Color.RED);
 
         stage.setTitle("Time Flies");
         stage.setScene(scene);
