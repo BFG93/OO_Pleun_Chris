@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="OO_Assignment11.jnlp">
+  <information>
+    <title>OO_Assignment11</title>
+    <vendor>christianlammers</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="OO_Assignment11.jar" size="3344" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="OO_Assignment11" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="oo_assignment11.OO_Assignment11"  name="OO_Assignment11" />
+  <update check="always"/>
+</jnlp>
