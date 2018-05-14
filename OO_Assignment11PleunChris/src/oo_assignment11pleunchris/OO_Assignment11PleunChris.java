@@ -15,6 +15,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
@@ -30,9 +32,9 @@ import javafx.util.Duration;
  * @author Christian Lammers s4578236
  */
 public class OO_Assignment11PleunChris extends Application {
-    
-    private static int counter;
-    
+
+    private int time = 0;
+
     @Override
     public void start(Stage stage) {
         Button startBtn = new Button();
@@ -42,33 +44,39 @@ public class OO_Assignment11PleunChris extends Application {
         stopBtn.setText("Stop");
         quitBtn.setText("Quit");
 
-
-        
-        TextField textField = new TextField ("Enter the time pls.");
+        TextField textField = new TextField("Time in sec.");
         GridPane grid = new GridPane();
-        
-        ProgressBar bar = new ProgressBar(1);
-        bar.setMinSize(100,5);
-        
-        
-        Timeline timeLine = new Timeline( new KeyFrame( 
-                Duration.seconds(1), (ActionEvent t) -> {
-            System.out.println(counter);
-            counter++;
-        }));
-        timeLine.setCycleCount( Timeline.INDEFINITE );
+        grid.setAlignment(Pos.CENTER);
 
-        
-        grid.add(textField,250,250);
-        grid.add(startBtn,250,300);
-        grid.add(bar,200, 250);
-        
-        timeLine.play();
-        
-        System.out.println("Eddie is cool.");
-        
+        ProgressBar bar = new ProgressBar(1);
+        bar.setMinSize(100, 5);
+
+        Timeline timeLine = new Timeline(new KeyFrame(
+                Duration.seconds(1), (ActionEvent t) -> {
+            System.out.println(time);
+            time--;
+        }));
+        timeLine.setCycleCount(Timeline.INDEFINITE);
+
+        grid.add(bar, 0, 0);
+        grid.add(textField, 0, 1);
+        grid.add(startBtn, 0, 2);
+        grid.add(stopBtn, 1, 2);
+        grid.add(quitBtn, 1, 1);
+
         startBtn.setOnAction((ActionEvent event) -> {
-            System.out.println(textField.getText());
+            try {
+                time = Integer.parseInt(textField.getText());
+                timeLine.play();
+            } catch (IllegalArgumentException e) {
+                //Give error message
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Please only enter numbers");
+
+                alert.showAndWait();
+            }
         });
         stopBtn.setOnAction((ActionEvent event) -> {
             System.out.println("Stop");
@@ -76,11 +84,9 @@ public class OO_Assignment11PleunChris extends Application {
         quitBtn.setOnAction((ActionEvent event) -> {
             stage.close();
         });
-        
-        
-        
+
         Scene scene = new Scene(grid, 500, 500);
-        
+
         stage.setTitle("Time Flies");
         stage.setScene(scene);
         stage.show();
@@ -91,7 +97,6 @@ public class OO_Assignment11PleunChris extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-        counter = 0;
     }
-    
+
 }
