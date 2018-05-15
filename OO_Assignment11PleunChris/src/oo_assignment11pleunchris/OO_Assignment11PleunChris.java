@@ -5,14 +5,12 @@
  */
 package oo_assignment11pleunchris;
 
-import javafx.scene.paint.Color;
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -21,8 +19,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -33,8 +29,8 @@ import javafx.util.Duration;
  */
 public class OO_Assignment11PleunChris extends Application {
 
-    private int time = -1;
-    private int maxTime = 0;
+    private double time = -1;
+    private double maxTime = 0;
 
     @Override
     public void start(Stage stage) {
@@ -48,27 +44,25 @@ public class OO_Assignment11PleunChris extends Application {
         TextField textField = new TextField("Time in sec.");
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
+        grid.setStyle("-fx-background-color: #ffffff;"); //White
 
         ProgressBar bar = new ProgressBar(1);
-        bar.setMinSize(100, 5);
+        bar.setMaxWidth(200);
+        DoubleProperty percentage = new SimpleDoubleProperty(1F);
 
         Timeline timeLine = new Timeline(new KeyFrame(
-                Duration.seconds(1), (ActionEvent t) -> {
-            System.out.println(time);
-            if (time == -1)  
-                bar.setProgress(1);
-            else {
-                double value = (double) time / maxTime;
-                System.out.printf("T: %d, M: %d, R: %f\n", time, maxTime, value);
-                bar.setProgress(value);
-                time--;
+                Duration.millis(100), (ActionEvent t) -> {
+            if (time <= 0) {
+                grid.setStyle("-fx-background-color: #ff0000;"); //Red
+                bar.progressProperty().unbind();
+                bar.setProgress(0);
+            } else {
+                percentage.set(time / maxTime);
+                time -= 0.1;
             }
         }));
         timeLine.setCycleCount(Timeline.INDEFINITE);
-        
 
-//        MyTimeLine timeLine = new MyTimeLine(bar);
-        
         grid.add(bar, 0, 0);
         grid.add(textField, 0, 1);
         grid.add(startBtn, 0, 2);
@@ -76,11 +70,13 @@ public class OO_Assignment11PleunChris extends Application {
         grid.add(quitBtn, 1, 1);
 
         startBtn.setOnAction((ActionEvent event) -> {
+            grid.setStyle("-fx-background-color: #ffffff;"); //White
             try {
-                time = Integer.parseInt(textField.getText());
+                //Run the thing
+                time = Double.parseDouble(textField.getText());
                 maxTime = time;
+                bar.progressProperty().bind(percentage);
                 timeLine.play();
-//                timeLine.run(time);
             } catch (IllegalArgumentException e) {
                 //Give error message
                 Alert alert = new Alert(AlertType.ERROR);
@@ -93,16 +89,14 @@ public class OO_Assignment11PleunChris extends Application {
         });
         stopBtn.setOnAction((ActionEvent event) -> {
             timeLine.pause();
-//            timeLine.stop();
+            grid.setStyle("-fx-background-color: #ffffff;"); //White
+            percentage.set(1F);
         });
         quitBtn.setOnAction((ActionEvent event) -> {
             stage.close();
         });
 
         Scene scene = new Scene(grid, 500, 500);
-        
-        
-        scene.setFill(Color.RED);
 
         stage.setTitle("Time Flies");
         stage.setScene(scene);
@@ -115,5 +109,4 @@ public class OO_Assignment11PleunChris extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
 }

@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="OO_Assignment11PleunChris.jar" size="6558" download="eager" />
+    <jar href="OO_Assignment11PleunChris.jar" size="4978" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="OO_Assignment11PleunChris" >
     <param name="requiredFXVersion" value="8.0+"/>
