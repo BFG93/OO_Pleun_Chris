@@ -12,6 +12,7 @@ import static oo_assignment12pleun.Main.RADIUS;
 /**
  *
  * @author Pleun Scholten s4822250
+ * @author Christian Lammers s4578236
  */
 public class MouseController {
 
