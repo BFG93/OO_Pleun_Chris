@@ -5,9 +5,12 @@
  */
 package oo16mergesort;
 
+import java.util.Arrays;
+
 /**
  *
  * @author christianlammers
+ * @author Pleun Scholten s4822250
  */
 public class SortRunner implements Runnable {
     
@@ -24,7 +27,7 @@ public class SortRunner implements Runnable {
     @Override
     public void run() {
         ms.sort(array);
-        System.out.println(ms.isSorted(array));
+        //System.out.println(ms.isSorted(array));
         
     }
     

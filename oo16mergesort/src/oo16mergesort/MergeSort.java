@@ -52,6 +52,7 @@ public class MergeSort {
     int current = array[0];
     for (int i: array) {
       if (i < current) {
+        System.out.printf("i: %d val: %d\n",i, array[i]);
         return false;
       } else {
         current = i;

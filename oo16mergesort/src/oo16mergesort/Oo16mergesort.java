@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 /**
  *
  * @author Christian Lammers s4578236
+ * @author Pleun Scholten s4822250
  */
 public class Oo16mergesort {
 
@@ -47,10 +48,13 @@ public class Oo16mergesort {
             t1.join();
             t2.join();
             
-            //int [] sortedArray = new int [array.length];
-            //System.arraycopy(sr1.array, 0, sortedArray, 0, sr1.array.length);
-            //System.arraycopy(sr2.array, 0, sortedArray, sr1.array.length, sr2.array.length);
-            //System.out.println(ms.isSorted(sortedArray));
+            // So it doesn't work but we don't know why
+            int [] sortedArray = new int [array.length];
+            ms.merge(part1, part2, sortedArray);
+            System.out.printf("%b, %d\n",ms.isSorted(part1), part1.length);
+            System.out.printf("%b, %d\n",ms.isSorted(part2), part2.length);
+            System.out.println(Arrays.toString(sortedArray));
+            System.out.println(ms.isSorted(sortedArray));
 
         }
     }
