@@ -1,5 +1,7 @@
 package ooassignment14;
 
+import java.util.Iterator;
+
 /**
  *
  * @author Pleun
@@ -10,10 +12,11 @@ public class OOAssignment14 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        run();
+        //runBufferTest();
+        runPrimeTest(1000);
     }
     
-    private static void run() {
+    private static void runBufferTest() {
         BoundedBuffer buffer = new BoundedBuffer(2);
         
         String[] names = {"Plöm","Chris-Chen","Belena"};
@@ -26,6 +29,15 @@ public class OOAssignment14 {
         for (int i = 0; i < 20; i++) {
             System.out.println(String.format("%d : %s",i, buffer.get()));
             
+        }
+    }
+    
+    private static void runPrimeTest(int max) {
+        Iterator<Integer> source = new Generator();
+        for (int i = 1; i <= max; i++) {
+            int prime = source.next();
+            source = new SieveOfEratosthenes(prime, source);
+            System.out.println(String.format("%d : %d",i,prime));
         }
     }
 }
