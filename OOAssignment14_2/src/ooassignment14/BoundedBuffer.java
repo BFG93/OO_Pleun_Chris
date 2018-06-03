@@ -11,7 +11,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  *
- * @author Plum
+ * @author Pleun Scholten s4822250
+ * @author Christian Lammers s4578236
  * @param <E> class type
  */
 public class BoundedBuffer<E> {

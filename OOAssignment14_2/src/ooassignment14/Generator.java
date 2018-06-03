@@ -4,7 +4,8 @@ import java.util.Iterator;
 
 /**
  *
- * @author Pleun
+ * @author Pleun Scholten s4822250
+ * @author Christian Lammers s4578236
  */
 public class Generator implements Iterator<Integer>{
     private int next = 2;

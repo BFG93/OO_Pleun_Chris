@@ -6,7 +6,8 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Pleun
+ * @author Pleun Scholten s4822250
+ * @author Christian Lammers s4578236
  */
 public class Writer implements Runnable {
     
