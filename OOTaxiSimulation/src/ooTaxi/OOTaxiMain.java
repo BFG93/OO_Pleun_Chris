@@ -4,6 +4,8 @@ package ooTaxi;
  * main Class: create a SImulation and execute it.
  *
  * @author pieterkoopman
+ * @author Pleun Scholten s4822250
+ * @author Christian Lammers s4578236
  */
 public class OOTaxiMain {
 

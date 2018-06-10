@@ -2,14 +2,14 @@ package ooTaxi;
 
 // To import the final variables.
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static ooTaxi.Simulation.*;
 
 /**
  * The train brings a number of passengers to a station in the simulation.
  *
  * @author pieterkoopman
+ * @author Pleun Scholten s4822250
+ * @author Christian Lammers s4578236
  */
 public class Train implements Runnable {
 

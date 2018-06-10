@@ -3,14 +3,14 @@ package ooTaxi;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Class that holds the number of persons arriving by train at the station and
  * is waiting for a taxi.
  *
  * @author pieterkoopman
+ * @author Pleun Scholten s4822250
+ * @author Christian Lammers s4578236
  */
 public class Station {
 

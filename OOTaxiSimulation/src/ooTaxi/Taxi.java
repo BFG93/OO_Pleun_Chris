@@ -1,14 +1,12 @@
 package ooTaxi;
 
-import java.util.concurrent.locks.Condition;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * Taxi for the Simulation. It takes passengers from the station and keeps basic
  * historical data.
  *
  * @author pieterkoopman
+ * @author Pleun Scholten s4822250
+ * @author Christian Lammers s4578236
  */
 public class Taxi implements Runnable {
 

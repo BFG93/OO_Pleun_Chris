@@ -5,7 +5,8 @@ import java.util.concurrent.Executors;
 
 /**
  *
- * @author Pleun
+ * @author Pleun Scholten s4822250
+ * @author Christian Lammers s4578236
  */
 public class Simulator {
 
